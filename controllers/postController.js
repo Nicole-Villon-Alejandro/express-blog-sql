@@ -23,13 +23,14 @@ function index(req, res) {
     //res.json(filteredPosts);
 
     const sql = 'SELECT * FROM posts';
-    connection.query(sql, (err, results) => {
-        if (err) return res.status(500).json({ error: 'Erorre nel serer query error INDEX' });
+    connection.query(sql, (error, results) => {
+        if (error) {
+            res.status(500).json({ error: error.message });
             return;
-        })
+        }
 
-        res.json(results);
-    
+        res.json(results)
+    });
 
 
 }
