@@ -110,7 +110,7 @@ function patch(req, res) {
 function destroy(req, res) {
     //localhost:3000/api/posts/2
     //params : 2
-    const id = parseInt(req.params.id);
+   /* const id = parseInt(req.params.id);
 
     const post = posts.find(post => post.id === id);
 
@@ -130,7 +130,24 @@ function destroy(req, res) {
 
     console.log(posts);
 
-    res.sendStatus(204);
+    res.sendStatus(204);*/
+
+    const {id} = req.params;
+
+    const sql = 'DELETE FROM posts WHERE id = ?'
+
+    connection.query( sql, [id], (err) => {
+        if(err) return res.status(500).json({
+            error: 'Database query error'
+        })
+
+        res.sendStatus(204)
+    } )
+
+
+
+
+    
 }
 
 module.exports = { index, show, store, update, patch, destroy };
