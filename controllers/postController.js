@@ -38,7 +38,7 @@ function index(req, res) {
 function show(req, res) {
     //localhost:3000/api/posts/2
     //params : 2
-    const id = parseInt(req.params.id);
+    /*const id = parseInt(req.params.id);
 
     const post = posts.find(post => post.id === id);
 
@@ -54,7 +54,34 @@ function show(req, res) {
         );
     }
 
-    res.json(post);
+    res.json(post);*/
+
+    //mysql
+    const {id} = req.params
+
+    const sql = 'SELECT * FROM posts WHERE id = ?';
+
+    connection.query(sql, [id], (err, results) =>{
+        if (err) return res.status( 500 ).json({
+            error: 'Database error SHOW'
+        })
+
+        if ( results.length === 0 ) return res.status(404).json({
+            status: 404,
+            error: "Not Found",
+            message: "Post non trovato"
+        })
+
+        res.json(results[0])
+    })
+
+
+
+
+
+
+
+
 }
 
 function store(req, res) {
@@ -143,8 +170,6 @@ function destroy(req, res) {
 
         res.sendStatus(204)
     } )
-
-
 
 
     
